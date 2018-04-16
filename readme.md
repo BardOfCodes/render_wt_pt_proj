@@ -10,11 +10,14 @@ Code to project 3D keypoints on a model to 2D keypoints on a render of the objec
 
 
 ## Example Reel:
-![alt_text](gifs/render.gif) ![alt_text](gifs/depth.gif)
+| Render| Depth Map|
+|----|----|
+|![alt_text](gifs/render.gif)| ![alt_text](gifs/depth.gif)|
 
-### The Render and the Depth Map.
 
-![alt_text](gifs/flow_1.gif) ![alt_text](gifs/flow_2.gif)
+| Optical Flow horizontal |Optical Flow Vertical|
+|----|----|
+| ![alt_text](gifs/flow_1.gif)| ![alt_text](gifs/flow_2.gif)|
 
 ### The Proxy Optical Flow maps.
 
