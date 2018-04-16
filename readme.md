@@ -9,8 +9,14 @@ Code to project 3D keypoints on a model to 2D keypoints on a render of the objec
 3) Example Utility of this: Computing proxy Optical-FLow maps for 3D models. 
 
 
-## Add examples:
+## Example Reel:
+![alt_text](gifs/render.gif) ![alt_text](gifs/depth.gif)
 
+### The Render and the Depth Map.
+
+![alt_text](gifs/flow_1.gif) ![alt_text](gifs/flow_2.gif)
+
+### The Proxy Optical Flow maps.
 
 # Necessary Installations
 
@@ -45,7 +51,7 @@ python run_proj.py --shape_file --file  02818832/42e4e91343b44d77c3bd24f98630174
 ```
 This will save the file `temp.npy` with the 2D projected points. Additional options, like depth-based pruning, have been provided in the file. Kindly look into the code for such options.
 
-# 3: Example Utility: proxy Optical-FLow maps
+# 3: Example Utility: proxy Optical-Flow maps
 
 There can be multiple applications of the 2D projection of 3D keypoints. One of the applications can be generating proxy Optical-flow maps. We sample random 10000 points on the 3D object, and compare the 3D projections of these points between angles (a,e,t) and (a+10,e+10,t). This can act as the proxy Optical-flow if the object is rotated by 10 azimuth and elevation, when it is rendered at angle (a,e,t).
 
@@ -64,8 +70,8 @@ I was using this in my research work, and felt that this might be a good,general
 
 I would like to thank:
 
-* RenderForCNN
+* creators of [RenderForCNN](https://github.com/ShapeNet/RenderForCNN)
 
-* Blender
+* creators of [Blender](https://www.blender.org/)
 
-* x and y for depth map.
+* [rfabbri](https://blender.stackexchange.com/users/16590/rfabbri) for answering questions at Blender Stackexchange.
