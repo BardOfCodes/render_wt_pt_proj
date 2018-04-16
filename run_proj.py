@@ -11,37 +11,14 @@ import variables
 import Imath
 import OpenEXR 
 
-parser = argparse.ArgumentParser(description='Projection of 3D points to 2D perspective projection.')
-parser.add_argument('--keypoints',
-                    help='if set, numpy file containing 3D keypoints is expected in --file',   action='store_true')
-parser.add_argument('--shape_file',
-                    help='if set, .obj file containing a 3D object is expected in --file ',   action='store_true')
-parser.add_argument('--file',               type=str,
-                    help='file name',         required=True)
-parser.add_argument('--depth_prune',
-                    help='if set, depth based pruning is done, and depth_map expected in  --depth-file ',   action='store_true')
-parser.add_argument('--depth_file',               type=str,
-                    help='depth file-name')
-parser.add_argument('--azimuth', type=float,
-                    help='the azimuth angle of object in render',      required=True)
-parser.add_argument('--elevation', type=float,
-                    help='the elevation angle of object in render',      required=True)
-parser.add_argument('--tilt', type=float,
-                    help='the tilt angle of object in render',      required=True)
-parser.add_argument('--distance', type=float,
-                    help='the distance of object in render',      required=True)
-
-args = parser.parse_args()
-
 
 def get_keypoints(shape_file,k = 10000):
     mesh = trimesh.load(shape_file)
-    all_pts = np.zeros((0,3))
     if type(mesh) == list:
-        for j in range(len(mesh)):
-            all_pts = np.concatenate([all_pts, mesh[j].sample( int(k/len(mesh)) )], 0)
-    else:
-        all_pts = np.concatenate([all_pts, mesh.sample(int(k))], 0)
+        for j in range(1,len(mesh)):
+            mesh[0] = mesh[0].union(mesh[j])
+        mesh = mesh[0]
+    all_pts = mesh.sample(int(k), 0)
     return all_pts
 
 def get_3d_to_2d(model_pts, params):
@@ -79,6 +56,27 @@ def get_depthmap_from_exr(file_name):
     return depthmap
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Projection of 3D points to 2D perspective projection.')
+    parser.add_argument('--keypoints',
+                        help='if set, numpy file containing 3D keypoints is expected in --file',   action='store_true')
+    parser.add_argument('--shape_file',
+                        help='if set, .obj file containing a 3D object is expected in --file ',   action='store_true')
+    parser.add_argument('--file',               type=str,
+                        help='file name',         required=True)
+    parser.add_argument('--depth_prune',
+                        help='if set, depth based pruning is done, and depth_map expected in  --depth-file ',   action='store_true')
+    parser.add_argument('--depth_file',               type=str,
+                        help='depth file-name')
+    parser.add_argument('--azimuth', type=float,
+                        help='the azimuth angle of object in render',      required=True)
+    parser.add_argument('--elevation', type=float,
+                        help='the elevation angle of object in render',      required=True)
+    parser.add_argument('--tilt', type=float,
+                        help='the tilt angle of object in render',      required=True)
+    parser.add_argument('--distance', type=float,
+                        help='the distance of object in render',      required=True)
+
+    args = parser.parse_args()
     # An example use of the functions:
     # Given a render param, you can get the pixel coordinates of the 3D points
     if args.shape_file:

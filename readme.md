@@ -6,7 +6,11 @@ Code to project 3D keypoints on a model to 2D keypoints on a render of the objec
 
 2) Projecting the 3D keypoints to 2D keypoints and pruning of points based on depth.
 
-3) Example Utility of this: Computing optical-flow-like-disparity for 3D models. 
+3) Example Utility of this: Computing proxy Optical-FLow maps for 3D models. 
+
+
+## Add examples:
+
 
 # Necessary Installations
 
@@ -41,10 +45,16 @@ python run_proj.py --shape_file --file  02818832/42e4e91343b44d77c3bd24f98630174
 ```
 This will save the file `temp.npy` with the 2D projected points. Additional options, like depth-based pruning, have been provided in the file. Kindly look into the code for such options.
 
-# 3: Example Utility: Optical-flow-like-disparity maps
+# 3: Example Utility: proxy Optical-FLow maps
 
 There can be multiple applications of the 2D projection of 3D keypoints. One of the applications can be generating proxy Optical-flow maps. We sample random 10000 points on the 3D object, and compare the 3D projections of these points between angles (a,e,t) and (a+10,e+10,t). This can act as the proxy Optical-flow if the object is rotated by 10 azimuth and elevation, when it is rendered at angle (a,e,t).
-  
+
+For getting the proxy Optical-FLow maps, use `get_of.py` file. This will run the render command, and the projection commands, given the view parameters. It can be used as shown below:
+```
+python get_of.py --shape_file <shape-file> --azimuth <azimuth> --elevation <elevation> --tilt <tilt> --distance <distance>  
+# example 
+python get_of.py --shape_file  02818832/42e4e91343b44d77c3bd24f986301745/model.obj --azimuth 45 --elevation 45 --tilt 0 --distance 2
+```  
 
 # But Why?
 

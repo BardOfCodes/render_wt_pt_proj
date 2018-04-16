@@ -40,12 +40,14 @@ def crop_visibility_array(pt_render,crop_params,resize=True):
 
 # function for depth visibility
 # get depth map from io_utils.get_depthmap_from_exr(filename)
-def depth_visibility_array(pt_render,depth_map,error_relaxation=0.005):
+def depth_visibility_array(pt_render,depth_map,error_relaxation=0.05):
     truth = np.array([0,]*pt_render.shape[1],dtype=float)
     for i in range(pt_render.shape[1]):
         y,x = (int(pt_render[1,i]),int(pt_render[0,i]))
         if (y>0 and y<540) and (x>0 and x<950):
-            truth[i] = pt_render[2,i] <=np.min(depth_map[y-1:y+2,x-1:x+2]+error_relaxation)
+            #print(pt_render[2,i],depth_map[y-1:y+2,x-1:x+2])
+            #print(pt_render.shape,depth_map.shape)
+            truth[i] = abs(pt_render[2,i] -depth_map[y,x])<=np.min(+error_relaxation)
         else:
             truth[i] = False
     truth = truth.astype('bool')
